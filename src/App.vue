@@ -1,44 +1,60 @@
 <template>
-  <div>
-    <h1>Parent component</h1>
-    <h1>{{name}}</h1>
-    <app-counter :count="count"></app-counter>
-    <br>
-    <app-car
-            :name="name"
-            :year="year"
-            @changeName="name=$event"
-            :changeNameAudi="changeNametoAudi"
-            :count="count"
-            @changeCount="count=$event"
-    ></app-car>
-  </div>
+    <div class="container">
+        <div class="form-group">
+            <form class="pt-3">
+                <label for="email">Email</label>
+                <input
+                        class="form-control "
+                        :class="{'is-invalid':$v.email.$error}"
+                        id="email" type="email"
+                        v-model="email"
+                        @blur="$v.email.$touch()"
+
+                >
+                <div class="invalid-feedback" v-if="!$v.email.required">
+                    mail required
+                </div>
+                <div class="invalid-feedback" v-if="!$v.email.email">
+                    mail is not correct
+                </div>
+            </form>
+        </div>
+        <div class="form-group">
+            <form class="pt-3">
+                <label for="email">Password</label>
+                <input
+                        class="form-control "
+                        :class="{'is-invalid':$v.email.$error}"
+                        id="password" type="password"
+                        v-model="password"
+                        @blur="$v.email.$touch()"
+
+                >
+                <div class="invalid-feedback" v-if="!$v.email.required">
+                    password required
+                </div>
+
+            </form>
+        </div>
+    </div>
+
 </template>
 
 <script>
-import Car from "./components/Car";
-import Counter from "./components/Counter";
+    import {required, email} from 'vuelidate/lib/validators'
 
-export default {
-  name: 'app',
-  data(){
-    return {
-      msg:'Hello world vue',
-      name:'Ford',
-      year:2019,
-      count:0,
-    }
-  },
-  components:{
-    appCar:Car,
-    appCounter:Counter,
-  },
-  methods:{
-    changeNametoAudi(){
-      this.name = 'Audi';
-    }
-  }
+    export default {
+        data() {
+            return {
+                email: '',
+            }
+        },
+        validations: {
+            email: {
+                required, email
+            }
+        }
 
-}
+    }
 </script>
 
