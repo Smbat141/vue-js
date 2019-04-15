@@ -1,15 +1,15 @@
 <template>
-
+    <div>
+        <h1>Home page</h1>
+    </div>
 </template>
 
 <script>
     export default {
-        name: "Car",
+        name: "Home"
     }
 </script>
 
 <style scoped>
-    div{
-        border: 1px solid red;
-    }
+
 </style>

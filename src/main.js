@@ -1,14 +1,15 @@
 import Vue from 'vue'
 import App from './App.vue'
-import Vuelidate from "vuelidate/src";
+import VueRouter from "vue-router";
+import routes from "./routes";
 
-
-Vue.config.productionTip = false
-Vue.use(Vuelidate)
+Vue.use(VueRouter)
 
 
 new Vue({
   el:'#app',
   render: h => h(App),
+  router:routes,
+
 })
 
