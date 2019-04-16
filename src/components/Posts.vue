@@ -4,23 +4,23 @@
             <form v-on:submit.prevent>
                 <div class="form-group">
                     <label for="title">Title</label>
-                    <input type="text" class="form-control" id="title" placeholder="Title" v-model="title">
+                    <input type="text" class="form-control" id="title" placeholder="Title" v-model="post.title">
                 </div>
                 <div class="form-group">
                     <label for="text">Text</label>
-                    <textarea class="form-control" id="text" placeholder="Text" v-model="text"/>
+                    <textarea class="form-control" id="text" placeholder="Text" v-model="post.text"/>
                 </div>
-                <button type="submit" class="btn btn-primary" @click="addPost" v-if="button == 'Submit'">{{button}}
+                <button type="submit" class="btn btn-primary" @click="addPost(post)" v-if="button == 'Submit'">{{button}}
                 </button>
-                <button type="submit" class="btn btn-primary" @click="changePost" v-if="button == 'Edit'">{{button}}
+                <button type="submit" class="btn btn-primary" @click="changePost(post)" v-if="button == 'Edit'">{{button}}
                 </button>
             </form>
             <br>
             <post
-                    v-for="(post,index) of data"
-                    :post="post"
+                    v-for="(p,index) of data"
+                    :post="p"
                     :index="index"
-                    @sendData="editPost($event)"
+                    @sendData="editPost($event,post)"
                     @deleteData="deleteData($event)"
             ></post>
         </div>
@@ -34,9 +34,11 @@
         name: "Posts",
         data() {
             return {
-                title: '',
-                text: '',
-                index: '',
+                post:{
+                    title: '',
+                    text: '',
+                    index: '',
+                },
                 button: 'Submit',
                 data: [],
             }
@@ -45,27 +47,27 @@
             post: Post
         },
         methods: {
-            addPost() {
+            addPost(post) {
                 this.data.push(
-                    {title: this.title, text: this.text}
+                    {title: post.title, text: post.text}
                 );
-                this.title = '';
-                this.text = '';
+                post.title = '';
+                post.text = '';
             },
-            editPost(event) {
-                this.title = event.title;
-                this.text = event.text;
-                this.index = event.index;
+            editPost(event,post) {
+                post.title = event.title;
+                post.text = event.text;
+                post.index = event.index;
                 this.button = 'Edit';
             },
-            changePost() {
+            changePost(post) {
                 this.data.map((key, index) => {
-                    if (index == this.index) {
-                        key.title = this.title
-                        key.text = this.text
+                    if (index == post.index) {
+                        key.title = post.title
+                        key.text = post.text
                         this.button = 'Submit'
-                        this.title = '';
-                        this.text = '';
+                        post.title = '';
+                        post.text = '';
                     }
                 })
             },
