@@ -5,12 +5,10 @@
 </template>
 
 <script>
-    import Posts from "./components/Posts";
 
     export default {
         name: 'app',
         components: {
-            appPosts: Posts
         },
     }
 </script>
