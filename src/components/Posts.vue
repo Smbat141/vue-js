@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="container pt-3">
+        <div class="container pt-3" id="inputs">
             <form v-on:submit.prevent>
                 <div class="form-group">
                     <label for="title">Title</label>
@@ -10,15 +10,19 @@
                     <label for="text">Text</label>
                     <textarea class="form-control" id="text" placeholder="Text" v-model="text"/>
                 </div>
-                <div class="form-group">
-                    <label for="age">Age</label>
-                    <input type="text" class="form-control" id="age" placeholder="Age" v-model="age">
-
-                </div>
-                <button type="submit" class="btn btn-primary" @click="addPost">Submit</button>
+                <button type="submit" class="btn btn-primary" @click="addPost" v-if="button == 'Submit'">{{button}}
+                </button>
+                <button type="submit" class="btn btn-primary" @click="changePost" v-if="button == 'Edit'">{{button}}
+                </button>
             </form>
             <br>
-            <post v-for="post of data"  :title="post.title" :text="post.text" :age="post.age"></post>
+            <post
+                    v-for="(post,index) of data"
+                    :post="post"
+                    :index="index"
+                    @sendData="editPost($event)"
+                    @deleteData="deleteData($event)"
+            ></post>
         </div>
     </div>
 </template>
@@ -28,25 +32,51 @@
 
     export default {
         name: "Posts",
-        data(){
+        data() {
             return {
-                title:'',
-                text:'',
-                age:'',
-                data:[],
+                title: '',
+                text: '',
+                index: '',
+                button: 'Submit',
+                data: [],
             }
         },
-        components:{
-          post:Post
+        components: {
+            post: Post
         },
-        methods:{
-            addPost(){
+        methods: {
+            addPost() {
                 this.data.push(
-                    {title : this.title, text : this.text, age : this.age}
-                    );
+                    {title: this.title, text: this.text}
+                );
                 this.title = '';
                 this.text = '';
-                this.age = '';
+            },
+            editPost(event) {
+                this.title = event.title;
+                this.text = event.text;
+                this.index = event.index;
+                this.button = 'Edit';
+            },
+            changePost() {
+                this.data.map((key, index) => {
+                    if (index == this.index) {
+                        key.title = this.title
+                        key.text = this.text
+                        this.button = 'Submit'
+                        this.title = '';
+                        this.text = '';
+                    }
+                })
+            },
+            deleteData(event) {
+                if (window.confirm('Delete this post?')) {
+                    this.data.map((key, index) => {
+                        if (index == event) {
+                            this.data.splice(event, 1)
+                        }
+                    })
+                }
             }
         }
     }
