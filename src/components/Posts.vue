@@ -20,7 +20,7 @@
                     v-for="(p,index) of data"
                     :post="p"
                     :index="index"
-                    @sendData="editPost($event,post)"
+                    @sendData="editPost"
                     @deleteData="deleteData($event)"
             ></post>
         </div>
@@ -54,10 +54,11 @@
                 post.title = '';
                 post.text = '';
             },
-            editPost(event,post) {
-                post.title = event.title;
-                post.text = event.text;
-                post.index = event.index;
+            editPost(event) {
+                console.log(event);
+                this.post.title = event.title;
+                this.post.text = event.text;
+                this.index = event.index;
                 this.button = 'Edit';
             },
             changePost(post) {
@@ -80,6 +81,9 @@
                     })
                 }
             }
+        },
+        mounted() {
+            let obj={a:'foo'};
         }
     }
 </script>

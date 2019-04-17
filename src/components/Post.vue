@@ -21,13 +21,12 @@
         methods: {
             sendData() {
                 window.scrollTo(0, 0);
-                this.$emit('sendData', {title: this.post.title, text: this.post.text, index: this.index});
+                this.$emit('sendData', {...this.post});
             },
             deleteData() {
-                this.$emit('deleteData', this.index);
+                this.$emit('deleteData', this.indexsendData);
             },
         },
-
     }
 </script>
 
