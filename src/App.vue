@@ -5,7 +5,6 @@
 </template>
 
 <script>
-
     import DataTable from "./components/DataTable";
 
     export default {
