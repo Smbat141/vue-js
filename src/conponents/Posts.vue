@@ -32,7 +32,7 @@
         },
         methods:{
             addTask(data){
-                data.push({title:this.title})
+                data.push({title:this.title,edit:false})
                 this.title='';
             }
         }

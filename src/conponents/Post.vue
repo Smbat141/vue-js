@@ -5,23 +5,35 @@
                     <input type="checkbox" aria-label="Checkbox for following text input">
                 </div>
             </div>
-            <span class="border text-center p-1 text-secondary"><h4>{{data.title}}</h4></span>
+                <span class="border text-center p-1 text-secondary" @dblclick="data.edit = true"  v-show="data.edit == false">
+                    <h4>{{data.title}}</h4>
+                </span>
+            <input v-show="data.edit" type="text"  v-model="data.title" @dblclick="data.edit = false">
             <div class="input-group-prepend">
-                <button class="btn btn-primary mr-1 rounded">edit</button>
                 <button class="btn btn-danger rounded">x</button>
             </div>
         </div>
+    
 </template>
 
 <script>
     export default {
         name: "Post",
-        props: ['data']
+        props: ['data'],
+        data(){
+          return {
+              titleTeg:``,
+              newTitle:'',
+          }
+        },
+        methods:{
+
+        }
     }
 </script>
 
 <style scoped>
     span{
-        width: 66%;
+        width: 79%;
     }
 </style>
