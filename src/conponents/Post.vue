@@ -30,7 +30,6 @@
             completed(){
                 this.$emit('selectCompleted',this.data.checked)
             }
-
         }
     }
 </script>
