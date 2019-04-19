@@ -26,7 +26,7 @@
         props: ['data', 'index'],
         methods: {
             deletePost() {
-                this.$emit('deletePost', this.index,this.data.checked)
+                this.$emit('deletePost', this.index,this.data.title)
             },
             completed(){
                 this.$emit('selectCompleted',this.data.checked)

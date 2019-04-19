@@ -7,7 +7,6 @@
                 <button type="button" class="btn btn-light" @click="button = 'com'">Completed - {{completed}}</button>
                 <button type="button" class="btn btn-danger ml-1">Clear Compleated</button>
             </div>
-            {{button}}
         </div>
         <hr>
         <div>
@@ -26,6 +25,9 @@
                 >
             </div>
         </form>
+        <!--<pre>
+            {{data}}
+        </pre>-->
         <app-post
                 :data="d"
                 :index="index"
@@ -51,6 +53,7 @@
                 completed: 0,
                 button:'all',
                 data: [],
+
             }
         },
         methods: {
@@ -59,19 +62,13 @@
                 this.data.push({title: this.title, edit: false, checked: false})
                 this.title = '';
             },
-            deletePost(event,checked) {
-                this.data.splice(event, 1);
-                if(checked){
-                    this.completed--
-                }
+            deletePost(index,title) {
+                console.log(this.data.findIndex(i => i.title === title));
+                let findIndex = this.data.findIndex(i => i.title === title)
+               this.data.splice(findIndex,1)
             },
             selectCompleted(event){
-                if(event){
-                    this.completed++
-                }
-                else{
-                    this.completed--
-                }
+
             },
             returnData(){
                 if(this.button === 'all'){
@@ -89,9 +86,9 @@
                         return !key.checked;
                     })
                 }
-
             },
-        }
+        },
+
 
     }
 </script>
