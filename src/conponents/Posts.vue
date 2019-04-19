@@ -31,7 +31,7 @@
         <app-post
                 :data="d"
                 :index="index"
-                v-for="(d,index) of returnData()"
+                v-for="(d,index) of filteredData"
                 @deletePost="deletePost"
                 @selectCompleted="selectCompleted"
         >
@@ -52,12 +52,14 @@
                 title: '',
                 completed: 0,
                 button:'all',
-                data: [],
-
+                data: [
+                    {title: 'task 1', edit: false, checked: false},
+                    {title: 'task 2', edit: false, checked: false},
+                    {title: 'task 3', edit: false, checked: true},
+                ],
             }
         },
         methods: {
-
             addTask() {
                 this.data.push({title: this.title, edit: false, checked: false})
                 this.title = '';
@@ -70,7 +72,9 @@
             selectCompleted(event){
 
             },
-            returnData(){
+        },
+        computed: {
+            filteredData() {
                 if(this.button === 'all'){
                     return this.data.filter(key => {
                         return key;
@@ -86,10 +90,8 @@
                         return !key.checked;
                     })
                 }
-            },
-        },
-
-
+            }
+        }
     }
 </script>
 
