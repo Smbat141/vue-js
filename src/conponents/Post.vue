@@ -20,6 +20,7 @@
         name: "Post",
         data() {
             return {
+
             }
         },
         props: ['data', 'index'],

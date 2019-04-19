@@ -2,11 +2,12 @@
     <div class="container border p-2 posts">
         <div class="btn-group d-flex justify-content-center" role="group" aria-label="Basic example">
             <div class="float-right">
-                <button type="button" class="btn btn-light">All</button>
-                <button type="button" class="btn btn-light m-1">Active</button>
-                <button type="button" class="btn btn-light">Completed - {{completed}}</button>
+                <button type="button" class="btn btn-light" @click="button = 'all'">All</button>
+                <button type="button" class="btn btn-light m-1" @click="button = 'active'">Active</button>
+                <button type="button" class="btn btn-light" @click="button = 'com'">Completed - {{completed}}</button>
                 <button type="button" class="btn btn-danger ml-1">Clear Compleated</button>
             </div>
+            {{button}}
         </div>
         <hr>
         <div>
@@ -21,14 +22,14 @@
                         class="form-control"
                         placeholder="What do you want to do"
                         v-model="title"
-                        @keyup.enter="addTask(data)"
+                        @keyup.enter="addTask"
                 >
             </div>
         </form>
         <app-post
                 :data="d"
                 :index="index"
-                v-for="(d,index) of data"
+                v-for="(d,index) of returnData()"
                 @deletePost="deletePost"
                 @selectCompleted="selectCompleted"
         >
@@ -48,12 +49,14 @@
             return {
                 title: '',
                 completed: 0,
+                button:'all',
                 data: [],
             }
         },
         methods: {
-            addTask(data) {
-                data.push({title: this.title, edit: false, checked: false})
+
+            addTask() {
+                this.data.push({title: this.title, edit: false, checked: false})
                 this.title = '';
             },
             deletePost(event,checked) {
@@ -69,7 +72,25 @@
                 else{
                     this.completed--
                 }
-            }
+            },
+            returnData(){
+                if(this.button === 'all'){
+                    return this.data.filter(key => {
+                        return key;
+                    })
+                }
+                else if(this.button === 'com'){
+                    return this.data.filter(key => {
+                        return key.checked;
+                    })
+                }
+                else if(this.button === 'active'){
+                    return this.data.filter(key => {
+                        return !key.checked;
+                    })
+                }
+
+            },
         }
 
     }
