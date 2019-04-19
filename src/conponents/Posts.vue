@@ -1,18 +1,38 @@
 <template>
-    <div class="container  w-25 border p-2">
+    <div class="container border p-2 posts">
         <div class="btn-group d-flex justify-content-center" role="group" aria-label="Basic example">
-            <button type="button" class="btn ">All</button>
-            <button type="button" class="btn">Active</button>
-            <button type="button" class="btn ">Completed</button>
+            <div class="float-right">
+                <button type="button" class="btn btn-light">All</button>
+                <button type="button" class="btn btn-light m-1">Active</button>
+                <button type="button" class="btn btn-light">Completed - {{completed}}</button>
+                <button type="button" class="btn btn-danger ml-1">Clear Compleated</button>
+            </div>
         </div>
+        <hr>
+        <div>
+            <span><a href="">{{data.length}} items left</a></span>
+        </div>
+        <hr>
         <form v-on:submit.prevent>
             <div class="form-group">
                 <h1>Create a Todo list</h1>
-                <input type="text" class="form-control"   placeholder="What do you want to do" v-model="title" @keyup.enter="addTask(data)">
+                <input
+                        type="text"
+                        class="form-control"
+                        placeholder="What do you want to do"
+                        v-model="title"
+                        @keyup.enter="addTask(data)"
+                >
             </div>
-
         </form>
-        <app-post :data="d" v-for="d of data"></app-post>
+        <app-post
+                :data="d"
+                :index="index"
+                v-for="(d,index) of data"
+                @deletePost="deletePost"
+                @selectCompleted="selectCompleted"
+        >
+        </app-post>
     </div>
 </template>
 
@@ -21,19 +41,34 @@
 
     export default {
         name: "Posts",
-        components:{
-            appPost:Post
+        components: {
+            appPost: Post
         },
-        data(){
+        data() {
             return {
-                title:'',
-                data:[],
+                title: '',
+                completed: 0,
+                data: [],
             }
         },
-        methods:{
-            addTask(data){
-                data.push({title:this.title})
-                this.title='';
+        methods: {
+            addTask(data) {
+                data.push({title: this.title, edit: false, checked: false})
+                this.title = '';
+            },
+            deletePost(event,checked) {
+                this.data.splice(event, 1);
+                if(checked){
+                    this.completed--
+                }
+            },
+            selectCompleted(event){
+                if(event){
+                    this.completed++
+                }
+                else{
+                    this.completed--
+                }
             }
         }
 
@@ -41,5 +76,7 @@
 </script>
 
 <style scoped>
-
+    .posts {
+        width: 32%;
+    }
 </style>
