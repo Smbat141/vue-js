@@ -4,8 +4,8 @@
             <div class="float-right">
                 <button type="button" class="btn btn-light" @click="button = 'all'">All</button>
                 <button type="button" class="btn btn-light m-1" @click="button = 'active'">Active</button>
-                <button type="button" class="btn btn-light" @click="button = 'com'">Completed - {{completed}}</button>
-                <button type="button" class="btn btn-danger ml-1">Clear Compleated</button>
+                <button type="button" class="btn btn-light" @click="button = 'com'">Completed - {{selectCompleted.length}}</button>
+                <button type="button" class="btn btn-danger ml-1" @click="deleteCompleted">Clear Compleated</button>
             </div>
         </div>
         <hr>
@@ -33,7 +33,6 @@
                 :index="index"
                 v-for="(d,index) of filteredData"
                 @deletePost="deletePost"
-                @selectCompleted="selectCompleted"
         >
         </app-post>
     </div>
@@ -50,7 +49,6 @@
         data() {
             return {
                 title: '',
-                completed: 0,
                 button:'all',
                 data: [
                     {title: 'task 1', edit: false, checked: false},
@@ -65,13 +63,17 @@
                 this.title = '';
             },
             deletePost(index,title) {
-                console.log(this.data.findIndex(i => i.title === title));
                 let findIndex = this.data.findIndex(i => i.title === title)
                this.data.splice(findIndex,1)
             },
-            selectCompleted(event){
-
-            },
+            deleteCompleted(){
+              let length = this.data.length - 1;
+                for(let i = length; i >= 0;i--){
+                    if(this.data[i].checked){
+                        this.data.splice(i,1)
+                    }
+            }
+            }
         },
         computed: {
             filteredData() {
@@ -90,6 +92,11 @@
                         return !key.checked;
                     })
                 }
+            },
+            selectCompleted(){
+                return this.data.filter(key => {
+                    return key.checked;
+                })
             }
         }
     }

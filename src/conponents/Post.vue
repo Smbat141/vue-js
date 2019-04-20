@@ -28,20 +28,17 @@
             deletePost() {
                 this.$emit('deletePost', this.index,this.data.title)
             },
-            completed(){
-                this.$emit('selectCompleted',this.data.checked)
-            }
         }
     }
 </script>
 
 <style scoped>
     span {
-        width: 85%;
+        width: 83%;
     }
 
     .editInput {
-        width: 85%;
+        width: 83%;
     }
 
     .del {
