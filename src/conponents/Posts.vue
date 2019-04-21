@@ -10,7 +10,8 @@
         </div>
         <hr>
         <div>
-            <span><a href="">{{data.length}} items left</a></span>
+            <span class="text-info">{{data.length}} items left</span>
+            <span class="float-right text-info">double click twice to edit</span>
         </div>
         <hr>
         <form v-on:submit.prevent>
