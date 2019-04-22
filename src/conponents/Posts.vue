@@ -4,13 +4,13 @@
             <div class="float-right">
                 <button type="button" class="btn btn-light" @click="button = 'all'">All</button>
                 <button type="button" class="btn btn-light m-1" @click="button = 'active'">Active</button>
-                <button type="button" class="btn btn-light" @click="button = 'com'">Completed - {{selectCompleted.length}}</button>
+                <button type="button" class="btn btn-light" @click="button = 'com'">Completed - {{selectCompleted}}</button>
                 <button type="button" class="btn btn-danger ml-1" @click="deleteCompleted">Clear Compleated</button>
             </div>
         </div>
         <hr>
         <div>
-            <span class="text-info">{{data.length}} items left</span>
+            <span class="text-info"> items left</span>
             <span class="float-right text-info">double click twice to edit</span>
         </div>
         <hr>
@@ -26,14 +26,10 @@
                 >
             </div>
         </form>
-        <!--<pre>
-            {{data}}
-        </pre>-->
         <app-post
+                v-for="d in filteredData"
                 :data="d"
-                :index="index"
-                v-for="(d,index) of filteredData"
-                @deletePost="deletePost"
+                :key="d.id"
         >
         </app-post>
     </div>
@@ -51,53 +47,24 @@
             return {
                 title: '',
                 button:'all',
-                data: [
-                    {title: 'task 1', edit: false, checked: false},
-                    {title: 'task 2', edit: false, checked: false},
-                    {title: 'task 3', edit: false, checked: true},
-                ],
             }
         },
         methods: {
             addTask() {
-                this.data.push({title: this.title, edit: false, checked: false})
+               this.$store.commit('addPost',this.title)
                 this.title = '';
             },
-            deletePost(index,title) {
-                let findIndex = this.data.findIndex(i => i.title === title)
-               this.data.splice(findIndex,1)
-            },
             deleteCompleted(){
-              let length = this.data.length - 1;
-                for(let i = length; i >= 0;i--){
-                    if(this.data[i].checked){
-                        this.data.splice(i,1)
-                    }
-            }
+              this.$store.commit('deleteCompleted')
             }
         },
         computed: {
             filteredData() {
-                if(this.button === 'all'){
-                    return this.data.filter(key => {
-                        return key;
-                    })
-                }
-                else if(this.button === 'com'){
-                    return this.data.filter(key => {
-                        return key.checked;
-                    })
-                }
-                else if(this.button === 'active'){
-                    return this.data.filter(key => {
-                        return !key.checked;
-                    })
-                }
+               return this.$store.getters.filterData(this.button)
             },
             selectCompleted(){
-                return this.data.filter(key => {
-                    return key.checked;
-                })
+                return this.$store.getters.selectCompleted;
+
             }
         }
     }

@@ -2,14 +2,14 @@
     <div class="input-group mb-3">
         <div class="input-group-prepend">
             <div class="input-group-text">
-                <!--<input type="checkbox"  v-model="data.checked" class="c">-->
+<!--                <input type="checkbox"  v-model="data.checked" class="c">-->
                 <span v-bind:class="[data.checked ? checkedClass : squareClass]" @click="data.checked = !data.checked"></span>
             </div>
         </div>
-        <span class="border text-center p-1 text-secondary" @dblclick="data.edit = true" v-show="data.edit == false">
+        <span class="border text-center p-1 text-secondary" @dblclick="edit = true" v-show="edit == false">
                 <h4 :class="{del:data.checked}">{{data.title}}</h4>
         </span>
-        <input v-show="data.edit" type="text" v-model="data.title" @dblclick="data.edit = false" class="editInput">
+        <input v-show="edit" type="text" v-model="data.title" @dblclick="edit = false" class="editInput">
         <div class="input-group-prepend">
             <button class="btn btn-danger rounded" @click="deletePost">X</button>
         </div>
@@ -22,15 +22,15 @@
         data() {
             return {
                 checkedClass:'fa fa-check-square',
-                squareClass:'fa fa-square'
+                squareClass:'fa fa-square',
+                edit: false,
             }
         },
-        props: ['data', 'index'],
+        props: ['data'],
         methods: {
             deletePost() {
-                this.$emit('deletePost', this.index,this.data.title)
+                this.$store.commit('deletePost',this.data.id)
             },
-
         },
 
     }
@@ -40,7 +40,6 @@
     span {
         width: 80%;
     }
-
     .editInput {
         width: 80%;
     }
@@ -48,7 +47,6 @@
     .del {
         text-decoration: line-through;
     }
-
     test{
         background-color: aqua;
     }
