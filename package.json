@@ -9,7 +9,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm --no-git-tag-version version"
+      "pre-commit": "npm --no-git-tag-version version patch"
     }
   },
   "dependencies": {
